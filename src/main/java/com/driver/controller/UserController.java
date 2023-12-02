@@ -11,21 +11,40 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+    @Autowired
+    UserService userService;
+
     @PostMapping("/create")
-    public ResponseEntity<Void> createUser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity createUser(@RequestParam String username, @RequestParam String password) {
         // create a new user with given username and password
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        try {
+            User response = userService.createUser(username, password);
+            return new ResponseEntity(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable int userId) {
         // delete user using deleteById
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            userService.deleteUser(userId);
+            return new ResponseEntity("User not longer exist", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/update")
     public ResponseEntity<Void> updateUser(@RequestParam Integer id, @RequestParam String password) {
         // update password of given user
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            User response = userService.updateUser(id, password);
+            return new ResponseEntity(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+//        return new ResponseEntity<>(HttpStatus.OK);
     }
 }
