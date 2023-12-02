@@ -52,8 +52,18 @@ public class BlogService {
 
         // get blog
         Blog blog = optionalBlog.get();
+        User user = blog.getUser();
 
+        for(Blog blog1: user.getBlogList()) {
+            if(blog1.equals(blog)) {
+                user.getBlogList().remove(blog1);
+                break;
+            }
+        }
+
+        // save changes
+        userRepository1.save(user);
         // delete blog
-        blogRepository1.deleteById(blogId);
+//        blogRepository1.deleteById(blogId);
     }
 }
