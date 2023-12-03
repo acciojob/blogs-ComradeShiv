@@ -25,11 +25,6 @@ public class BlogService {
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
         Optional<User> optionalUser = userRepository1.findById(userId);
-        if(!optionalUser.isPresent()) {
-            throw new RuntimeException("User not found");
-        }
-
-        // get user
         User user = optionalUser.get();
 
         // create & save blog
@@ -46,11 +41,6 @@ public class BlogService {
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
         Optional<Blog> optionalBlog = blogRepository1.findById(blogId);
-        if(!optionalBlog.isPresent()) {
-            throw new RuntimeException("Blog not found");
-        }
-
-        // get blog
         Blog blog = optionalBlog.get();
         User user = blog.getUser();
 
