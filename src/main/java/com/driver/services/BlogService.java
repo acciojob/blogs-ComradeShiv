@@ -27,16 +27,15 @@ public class BlogService {
         Optional<User> optionalUser = userRepository1.findById(userId);
         User user = optionalUser.get();
 
-        // create & save blog
+        // create
         Blog blog = new Blog(title, content, user);
         blog.setPubDate(new Date());
-        Blog savedBlog = blogRepository1.save(blog);
 
         // save user changes
-        user.getBlogList().add(savedBlog);
+        user.getBlogList().add(blog);
         User savedUser = userRepository1.save(user);
 
-        return savedBlog;
+        return blog;
     }
 
     public void deleteBlog(int blogId){
