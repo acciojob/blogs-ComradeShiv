@@ -24,36 +24,39 @@ public class BlogService {
 
     public Blog createAndReturnBlog(Integer userId, String title, String content) {
         //create a blog at the current time
-        Optional<User> optionalUser = userRepository1.findById(userId);
-        User user = optionalUser.get();
-
-        // create
-        Blog blog = new Blog(title, content, user);
+        Blog blog = new Blog();
+        blog.setTitle(title);
+        blog.setContent(content);
         blog.setPubDate(new Date());
 
-        // save user changes
-        user.getBlogList().add(blog);
-        User savedUser = userRepository1.save(user);
+        Optional<User> optionalUser = userRepository1.findById(userId);
+        User user = optionalUser.get();
+        blog.setUser(user);
 
+        List<Blog> blogList=user.getBlogList();
+        blogList.add(blog);
+        user.setBlogList(blogList);
+
+        userRepository1.save(user);
         return blog;
     }
 
     public void deleteBlog(int blogId){
         //delete blog and corresponding images
-        Optional<Blog> optionalBlog = blogRepository1.findById(blogId);
-        Blog blog = optionalBlog.get();
-        User user = blog.getUser();
-
-        for(Blog blog1: user.getBlogList()) {
-            if(blog1.equals(blog)) {
-                user.getBlogList().remove(blog1);
-                break;
-            }
-        }
+//        Optional<Blog> optionalBlog = blogRepository1.findById(blogId);
+//        Blog blog = optionalBlog.get();
+//        User user = blog.getUser();
+//
+//        for(Blog blog1: user.getBlogList()) {
+//            if(blog1.equals(blog)) {
+//                user.getBlogList().remove(blog1);
+//                break;
+//            }
+//        }
 
         // save changes
-        userRepository1.save(user);
+//        userRepository1.save(user);
         // delete blog
-//        blogRepository1.deleteById(blogId);
+        blogRepository1.deleteById(blogId);
     }
 }
