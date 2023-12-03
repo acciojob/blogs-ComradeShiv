@@ -22,7 +22,7 @@ public class ImageController {
             Image response = imageService.addImage(blogId, description, dimensions);
             return new ResponseEntity<>("Added image successfully", HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
     }

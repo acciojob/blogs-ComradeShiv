@@ -30,20 +30,20 @@ public class UserController {
         // delete user using deleteById
         try {
             userService.deleteUser(userId);
-            return new ResponseEntity("User not longer exist", HttpStatus.OK);
+            return new ResponseEntity(HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
     }
 
     @PutMapping("/update")
-    public ResponseEntity<Void> updateUser(@RequestParam Integer id, @RequestParam String password) {
+    public ResponseEntity<User> updateUser(@RequestParam Integer id, @RequestParam String password) {
         // update password of given user
         try {
             User response = userService.updateUser(id, password);
             return new ResponseEntity(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
         }
 //        return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -23,9 +23,9 @@ public class BlogController {
         // Create a blog and add it under given user
         try {
             Blog response = blogService.createAndReturnBlog(userId, title, content);
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
+            return new ResponseEntity(response, HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
