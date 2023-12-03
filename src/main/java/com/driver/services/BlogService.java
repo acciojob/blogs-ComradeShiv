@@ -29,6 +29,7 @@ public class BlogService {
 
         // create & save blog
         Blog blog = new Blog(title, content, user);
+        blog.setPubDate(new Date());
         Blog savedBlog = blogRepository1.save(blog);
 
         // save user changes
