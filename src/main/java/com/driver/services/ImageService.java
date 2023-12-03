@@ -22,29 +22,14 @@ public class ImageService {
         Blog blog = optionalBlog.get();
 
         Image image = new Image(description, dimensions, blog);
-        Image savedImage = imageRepository2.save(image);
 
-        blog.getImageList().add(savedImage);
-        Blog savedBlog = blogRepository2.save(blog);
+        blog.getImageList().add(image);
+        blogRepository2.save(blog);
 
-        return savedImage;
+        return image;
     }
 
     public void deleteImage(Integer id){
-//        Optional<Image> optionalImage = imageRepository2.findById(id);
-
-        // get blog attached to given image
-//        Image image = optionalImage.get();
-//        Blog blog = image.getBlog();
-//
-//        // delete image from blog list & from DB
-//        for(Image image1: blog.getImageList()) {
-//            if(image1.equals(image)) {
-//                blog.getImageList().remove(image1);
-//                break;
-//            }
-//        }
-//        Blog savedBlog = blogRepository2.save(blog);
         imageRepository2.deleteById(id);
     }
 
@@ -55,11 +40,13 @@ public class ImageService {
 
         // calculate screen area
         String[] screenDimension = screenDimensions.split("X");
-        int screenArea = Integer.parseInt(screenDimension[0]) * Integer.parseInt(screenDimension[1]);
+        int screenH = Integer.parseInt(screenDimension[0]);
+        int screenW = Integer.parseInt(screenDimension[1]);
 
         // calculate image area
         String[] imageDimension = image.getDimensions().split("X");
-        int imageArea = Integer.parseInt(imageDimension[0]) * Integer.parseInt(imageDimension[1]);
-        return screenArea / imageArea;
+        int imageH = Integer.parseInt(imageDimension[0]);
+        int imageW = Integer.parseInt(imageDimension[1]);
+        return (screenH*imageH) / (screenW*imageW);
     }
 }
