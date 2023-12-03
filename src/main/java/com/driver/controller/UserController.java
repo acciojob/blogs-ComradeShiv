@@ -15,25 +15,17 @@ public class UserController {
     UserService userService;
 
     @PostMapping("/create")
-    public ResponseEntity createUser(@RequestParam String username, @RequestParam String password) {
+    public ResponseEntity<Void> createUser(@RequestParam String username, @RequestParam String password) {
         // create a new user with given username and password
-        try {
-            User response = userService.createUser(username, password);
-            return new ResponseEntity(response, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        userService.createUser(username, password);
+        return new ResponseEntity(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{userId}")
     public ResponseEntity<Void> deleteUser(@PathVariable int userId) {
         // delete user using deleteById
-        try {
-            userService.deleteUser(userId);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
+        userService.deleteUser(userId);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/update")
