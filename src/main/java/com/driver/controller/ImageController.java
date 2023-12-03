@@ -18,8 +18,13 @@ public class ImageController {
     @PostMapping("/{blogId}/add-image")
     public ResponseEntity<String> addImage(@PathVariable int blogId, @RequestParam String description, @RequestParam String dimensions) {
         // Add image into the give blog
-        Image response = imageService.addImage(blogId, description, dimensions);
-        return new ResponseEntity<>("Added image successfully", HttpStatus.OK);
+        try {
+            Image response = imageService.addImage(blogId, description, dimensions);
+            return new ResponseEntity<>("Added image successfully", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/countImagesInScreen/{id}/{screenDimensions}")
